@@ -1,0 +1,67 @@
+{% schema %}
+{
+  "name": "Featured Images",
+  "settings": [
+    {
+    "type" : "text",
+    "label" : "Headline",
+    "id" : "Headline"
+    }
+  ],
+  "blocks": [
+    {
+      "name" : "icon",
+      "type": "Icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "label" : "image",
+          "id" : "image"
+        },
+        {
+           "type": "text",
+          "id": "description",
+          "label": "description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name" : "Featured Images"
+    }
+  ]
+}
+{% endschema %}
+
+<link rel="stylesheet" href="{{ 'figsection.css' | asset_url }}" type="text/css">
+
+
+<div class="custom-content-section body">
+  <div class="headline">
+    <p class="finally">Finally</p>
+    <p>{{ section.settings.Headline }}</p>
+  </div>
+
+  <div class="custom-content-blocks">
+    {% for block in section.blocks %}
+      <div class="custom-content-block" id="block-{{ block.id }}">
+        {% if block.settings.image %}
+          <div class="custom-content-image">
+            <img src="{{ block.settings.image | img_url: width :130 }}" alt="{{ block.settings.description }}">
+          </div>
+        {% endif %}
+        {% if block.settings.description %}
+          <div class="custom-content">
+            <p>{{ block.settings.description }}</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  <br>
+  <div class="buttons">
+    <button class="buynow">Buy Now</button>
+    <button class="learnmore">Learn More</button>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+.box {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    opacity: 1;
+}
+
+.headline {
+    text-align: center;
+    opacity: 1;
+}
+
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.content-image {
+    flex: 1 1 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.content-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.content-box {
+    flex: 1 1 100%;
+    max-width: 600px;
+    padding: 20px;
+}
+
+.star-rating {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+.star {
+    display: inline-block;
+}
+
+.content-box-head {
+    width: 100%;
+    padding: 1px 0 26px 0;
+    border-bottom: 1px solid #000;
+    opacity: 1;
+}
+
+.content-box-head-username {
+    max-width: 70px;
+    height: 19px;
+                  
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.buttons button {
+    flex: 1 1 auto;
+    margin: 0 5px;
+    height: 46px;
+    text-align: center;
+    line-height: 46px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 20px;
+}
+
+.buttons button:first-child {
+    background: #25101D;
+    color: white;
+    border: 1px solid #25101D;
+}
+
+.buttons button:not(:first-child) {
+    background: white;
+    color: #25101D;
+    border: 1px solid #25101D;
+}
+
+.buttons button:not(:first-child):hover {
+    background: #25101D;
+    color: white;
+}
+
+@media (min-width: 600px) {
+    .content-container {
+        flex-wrap: nowrap;
+    }
+
+    .content-image, .content-box {
+        flex: 1;
+    }
+}
+@media (min-width: 1024px) { /* Adjust the breakpoint as needed */
+    .content-image img {
+        max-width: 600px;
+    }
+}

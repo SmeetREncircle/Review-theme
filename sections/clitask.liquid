@@ -1,0 +1,226 @@
+{% schema %}
+{
+  "name": "clitask",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Headline",
+      "id": "headline"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Button Label",
+          "id": "button_label"
+        },
+        {
+          "type": "number",
+          "label": "buttonno",
+          "id": "button_index"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "label": "Image",
+          "id": "image"
+        },
+        {
+          "type": "text",
+          "label": "Image Label",
+          "id": "image_label"
+        },
+        {
+          "type": "number",
+          "label": "buttonno",
+          "id": "button_index"
+        }
+      ]
+    },
+    {
+      "type": "username",
+      "name": "Username",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Username",
+          "id": "username"
+        },
+        {
+          "type": "number",
+          "label": "userno",
+          "id": "user_index"
+        }
+      ]
+    },
+    {
+      "type": "review_line",
+      "name": "Review Line",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Review Line",
+          "id": "reviewline"
+        },
+        {
+          "type": "number",
+          "label": "reviewno",
+          "id": "review_index"
+        }
+      ]
+    },
+    {
+      "type": "star_rating",
+      "name": "Star Rating",
+      "settings": [
+        {
+          "type": "number",
+          "label": "Rating (1-5)",
+          "id": "rating"
+        },
+        {
+          "type": "color",
+          "label": "Star Color",
+          "id": "star_color",
+          "default": "#FFD700"
+        },
+        {
+          "type": "number",
+          "label": "ratingno",
+          "id": "rating_index"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Description",
+          "id": "description"
+        },
+        {
+          "type": "number",
+          "label": "descriptionno",
+          "id": "description_index"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "figtabs",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "button"
+        },
+        {
+          "type": "image_picker"
+        },
+        {
+          "type": "username"
+        },
+        {
+          "type": "review_line"
+        },
+        {
+          "type": "star_rating"
+        },
+        {
+          "type": "description"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<link rel="stylesheet" href="{{ 'figtabs.css' | asset_url }}" type="text/css">
+<div class="box">
+  <h1 class="headline">{{ section.settings.headline }}</h1>
+  <div class="buttons">
+
+    {% for block in section.blocks %}
+      {% if block.type == 'button' %}
+        <button data-index="{{ block.settings.button_index }}">{{ block.settings.button_label }}</button>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="content-container">
+    {% for block in section.blocks %}
+      {% if block.type == 'image_picker' %}
+        <div data-index="{{ block.settings.image_label }}" class="content content-image">
+          <img src="{{ block.settings.image | image_url }}" alt="{{ block.settings.image_label }}">
+        </div>
+        
+      {% endif %}
+      <div >
+        {% if block.type == 'username' %}
+          <div class="content" data-index="{{ block.settings.user_index }}" style="display: none;">
+            <div class="content-box-head-username">{{ block.settings.username }}</div>
+          </div>
+        {% endif %}
+        {% if block.type == 'review_line' %}
+          <div class="content content-box-head" data-index="{{ block.settings.review_index }}" style="display: none;">
+            <h1>{{ block.settings.reviewline }}</h1>
+          </div>
+        {% endif %}
+         
+        {% if block.type == 'star_rating' %}
+          <div class="content star-rating-content" data-index="{{ block.settings.rating_index }}" style="color: {{ block.settings.star_color }}; display: none;">
+            {% assign rating = block.settings.rating | default: 5 %}
+            {% for i in (1..rating) %}
+              <span class="star">&#9733;</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if block.type == 'description' %}
+          <div class="content content-box" data-index="{{ block.settings.description_index }}" style="display: none;">
+            {{ block.settings.description }}
+          </div>
+        {% endif %}
+       </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.buttons button');
+    const contents = document.querySelectorAll('.content');
+
+    function showContent(index) {
+      contents.forEach(content => {
+        if (content.getAttribute('data-index') == index) {
+          content.style.display = 'block';
+        } else {
+          content.style.display = 'none';
+        }
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const index = button.getAttribute('data-index');
+        showContent(index);
+      });
+    });
+
+    // Show the content of the first button by default
+    const firstButton = buttons[0];
+    if (firstButton) {
+      showContent(firstButton.getAttribute('data-index'));
+    }
+  });
+</script>
